@@ -6,16 +6,68 @@ var me = true;
 
 var chessArrays = []
 
+// 赢法数组
+var wins = []
+
+// 赢法种类索引
+var count = 0;
 
 // 初始化棋盘数据
 var chessdata = (function () {
+    for (var i = 0; i < 15; i++) {
+        chessArrays[i] = []
+        wins[i] = []
+        for (var j = 0; j < 15; j++) {
+            chessArrays[i][j] = 0
+            wins[i][j] = []
+        }
+    }
+})()
+console.log(wins)
+var countData = (function () {
+
+    // 直线 竖线
+    var winLine = (function () {
         for (var i = 0; i < 15; i++) {
-            chessArrays[i] = []
-            for (var j = 0; j < 15; j++) {
-                chessArrays[i][j] = 0
+            for (var j = 0; j < 11; j++) {
+                //  wins[0][0][0] = true
+                for (var k = 0; k < 5; k++) {
+                    wins[i][j + k][count] = true
+                }
+                count++;
+            }
+        }
+
+    })()
+
+    // 斜线赢法
+    var winSlash = (function () {
+        for (var i = 0; i < 15; i++) {
+            for (var j = 0; j < 11; j++) {
+                for (var k = 0; k < 5; k++) {
+                    wins[i + k][j + k][count] = true
+                }
+                count++;
+            }
+        }
+        // 反斜线赢法
+
+    })()
+
+    // 反斜线
+    var winBackSlash = (function () {
+        for (var i = 0; i < 15; i++) {
+            for (var j = 14; j > 3; j--) {
+                for (var k = 0; k < 5; k++) {
+                    wins[i + k][j - k][count] = true
+                }
+                count++;
             }
         }
     })()
+})()
+
+alert(count++)
 
 //  绘制棋盘
 var initLine = function () {
@@ -35,7 +87,7 @@ var pieces = function (x, y, color) {
     var tempX = 15 + x * 30
     var tempY = 15 + y * 30
     //  x y 坐标，圆半径  x y 坐标  圆半径
-    var gradient = ctx.createRadialGradient(tempX + 2, tempY - 2, 13, tempX + 2, tempY -2, 0)
+    var gradient = ctx.createRadialGradient(tempX + 2, tempY - 2, 13, tempX + 2, tempY - 2, 0)
     if (color) {
         // 第一个圆的颜色
         gradient.addColorStop(0, '#0a0a0a')
@@ -58,8 +110,8 @@ var pieces = function (x, y, color) {
 // 落子
 var drop = (function () {
     ui.onclick = function (e) {
-        var x =Math.floor(e.offsetX / 30)
-        var y =Math.floor(e.offsetY / 30)
+        var x = Math.floor(e.offsetX / 30)
+        var y = Math.floor(e.offsetY / 30)
         // 该点没有数据才能落子
         if (chessArrays[x][y] === 0) {
             pieces(x, y, me)
