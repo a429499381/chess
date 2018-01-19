@@ -6,6 +6,7 @@ var me = true;
 
 var chessArrays = []
 
+
 // 初始化棋盘数据
 var chessdata = (function () {
         for (var i = 0; i < 15; i++) {
@@ -16,11 +17,16 @@ var chessdata = (function () {
         }
     })()
 
-var logo = new Image()
-logo.src = 'logo.png'
-logo.onload = function () {
-    ctx.drawImage(logo, 0, 0, 450, 450)
-    initLine()
+//  绘制棋盘
+var initLine = function () {
+    for (var i = 0; i < 15; i++) {
+        ctx.moveTo(15 + i * 30, 15)
+        ctx.lineTo(15 + i * 30, 435)
+        ctx.stroke()
+        ctx.moveTo(15, 15 + i * 30)
+        ctx.lineTo(435, 15 + i * 30)
+        ctx.stroke()
+    }
 
 }
 
@@ -64,21 +70,18 @@ var drop = (function () {
     }
 })()
 
-//  绘制棋盘
-var initLine = function () {
-    for (var i = 0; i < 15; i++) {
-        ctx.moveTo(15 + i * 30, 15)
-        ctx.lineTo(15 + i * 30, 435)
-        ctx.stroke()
-        ctx.moveTo(15, 15 + i * 30)
-        ctx.lineTo(435, 15 + i * 30)
-        ctx.stroke()
-    }
+
+var logo = new Image()
+logo.src = 'logo.png'
+logo.onload = function () {
+    ctx.drawImage(logo, 0, 0, 450, 450)
+    // 画元一个 450 * 450 无填充的边框
+    ctx.strokeRect(0, 0, WIDTH, HEIGHT)
+    ctx.stroke()
+    initLine()
 
 }
 
-// 画元一个 450 * 450 无填充的边框
-ctx.strokeRect(0, 0, WIDTH, HEIGHT)
-ctx.stroke()
+
 
 
