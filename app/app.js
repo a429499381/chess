@@ -3,6 +3,13 @@ var ctx = ui.getContext('2d')
 var WIDTH = 450
 var HEIGHT = 450
 
+var logo = new Image()
+logo.src = 'logo.png'
+logo.onload = function () {
+    ctx.drawImage(logo, 0, 0, 450, 450)
+    initLine()
+
+}
 
 //  绘制棋盘
 var initLine = function () {
@@ -20,5 +27,4 @@ var initLine = function () {
 ctx.strokeRect(0, 0, WIDTH, HEIGHT)
 ctx.stroke()
 
-initLine()
 
