@@ -90,7 +90,6 @@ var myWinData = (function () {
 })()
 
 
-
 //  绘制棋盘
 var initLine = function () {
     // x 坐标画横线， y 坐标画竖线
@@ -131,6 +130,31 @@ var pieces = function (x, y, color) {
     ctx.fillStyle = gradient
     ctx.fill()
 }
+// 判断输赢
+var winIsLose = function (x, y, me) {
+    for (var k = 0; k < count; k++) {
+        if (wins[x][y][k]) {
+            if (me) {
+                myWin[k]++
+                computerWin[k] = 6
+
+                if (myWin[k] === 5) {
+                    window.alert('你赢了')
+                    over = true
+                }
+            } else {
+                computerWin[k]++
+                myWin[k] = 6
+
+                if (computerWin[k] === 5) {
+                    window.alert('白棋赢了')
+                    over = true
+                }
+            }
+
+        }
+    }
+}
 
 // 落子
 var drop = (function () {
@@ -145,21 +169,11 @@ var drop = (function () {
         // 该点没有数据才能落子
         if (chessArrays[x][y] === 0) {
             pieces(x, y, me)
+            winIsLose(x, y, me)
 
-            for (var k = 0; k < count; k++) {
-                if (wins[x][y][k]) {
-                    myWin[k]++
-                    computerWin[k] = 6
-
-                    if (myWin[k] === 5) {
-                        window.alert('你赢了')
-                        over = true
-                    }
-                }
-            }
         }
 
-        if(!over) {
+        if (!over) {
             me = !me
             // 如果没赢
             // computerAI()
@@ -167,7 +181,7 @@ var drop = (function () {
     }
 })()
 
-
+// 电脑 AI
 var computerAI = function () {
     var myScore = []
     var computerScore = []
@@ -253,7 +267,7 @@ var computerAI = function () {
         }
     }
 
-    if(!over) {
+    if (!over) {
         me = !me
     }
 }
