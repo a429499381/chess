@@ -2,7 +2,8 @@ var ui = document.getElementById('ui')
 var ctx = ui.getContext('2d')
 var WIDTH = 450
 var HEIGHT = 450
-var me = true;
+var me = true
+var over = false
 
 var chessArrays = []
 
@@ -11,6 +12,17 @@ var wins = []
 
 // 赢法种类索引
 var count = 0;
+
+// 赢法的统计数组
+var myWin = []
+var computerWin = []
+
+var myWinData = (function () {
+    for (var i = 0; i < count; i++) {
+        myWin[i] = 0
+        computerWin[i] = 0
+    }
+})()
 
 // 初始化棋盘数据
 var chessdata = (function () {
@@ -23,7 +35,8 @@ var chessdata = (function () {
         }
     }
 })()
-console.log(wins)
+
+
 var countData = (function () {
 
     // 直线 竖线
@@ -111,6 +124,9 @@ var pieces = function (x, y, color) {
 
 // 落子
 var drop = (function () {
+    if (over) {
+        return
+    }
     ui.onclick = function (e) {
         var x = Math.floor(e.offsetX / 30)
         var y = Math.floor(e.offsetY / 30)
@@ -121,6 +137,17 @@ var drop = (function () {
             me = !me
         }
 
+        for (var k = 0; k < count; k++) {
+            if (wins[x][y][k]) {
+                myWin[k]++
+                computerWin[k] = 6
+
+                if (myWin[k] === 5) {
+                    window.alert('你赢了')
+                    over = true
+                }
+            }
+        }
     }
 })()
 
