@@ -134,14 +134,12 @@ var pieces = function (x, y, color) {
 
 // 落子
 var drop = (function () {
-    if (over) {
-        return
-    }
 
-    if (!me) {
-        return
-    }
     ui.onclick = function (e) {
+        if (over) {
+            return
+        }
+
         var x = Math.floor(e.offsetX / 30)
         var y = Math.floor(e.offsetY / 30)
         // 该点没有数据才能落子
