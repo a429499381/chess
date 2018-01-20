@@ -42,7 +42,7 @@ var countData = (function () {
 
     // 斜线赢法
     var winSlash = (function () {
-        for (var i = 0; i < 15; i++) {
+        for (var i = 0; i < 11; i++) {
             for (var j = 0; j < 11; j++) {
                 for (var k = 0; k < 5; k++) {
                     wins[i + k][j + k][count] = true
@@ -56,7 +56,7 @@ var countData = (function () {
 
     // 反斜线
     var winBackSlash = (function () {
-        for (var i = 0; i < 15; i++) {
+        for (var i = 0; i < 11; i++) {
             for (var j = 14; j > 3; j--) {
                 for (var k = 0; k < 5; k++) {
                     wins[i + k][j - k][count] = true
@@ -67,12 +67,14 @@ var countData = (function () {
     })()
 })()
 
-alert(count++)
 
 //  绘制棋盘
 var initLine = function () {
+    // x 坐标画横线， y 坐标画竖线
     for (var i = 0; i < 15; i++) {
+        // moveTo x y 坐标开始位置
         ctx.moveTo(15 + i * 30, 15)
+        // lineTo x y 坐标结束位置
         ctx.lineTo(15 + i * 30, 435)
         ctx.stroke()
         ctx.moveTo(15, 15 + i * 30)
