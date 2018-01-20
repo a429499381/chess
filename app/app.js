@@ -157,29 +157,28 @@ var winIsLose = function (x, y, me) {
 }
 
 // 落子
-var drop = (function () {
-
     ui.onclick = function (e) {
+        var x = Math.floor(e.offsetX / 30)
+        var y = Math.floor(e.offsetY / 30)
         if (over) {
             return
         }
+        if (me) {
+            // 该点没有数据才能落子
+            if (chessArrays[x][y] === 0) {
+                pieces(x, y, me)
+                chessArrays[x][y] = 1
+                winIsLose(x, y, me)
 
-        var x = Math.floor(e.offsetX / 30)
-        var y = Math.floor(e.offsetY / 30)
-        // 该点没有数据才能落子
-        if (chessArrays[x][y] === 0) {
-            pieces(x, y, me)
-            winIsLose(x, y, me)
-
+            }
         }
 
         if (!over) {
             me = !me
             // 如果没赢
-            // computerAI()
+            computerAI()
         }
     }
-})()
 
 // 电脑 AI
 var computerAI = function () {
@@ -209,19 +208,17 @@ var computerAI = function () {
                         } else if (myWin[k] === 3) {
                             myScore[i][j] += 2000
                         } else if (myWin[k] === 4) {
-                            myScore[i][j] += 2000;
+                            myScore[i][j] += 10000;
                         }
-                    }
 
-                    if (computerWin[i][j][k]) {
                         if (computerScore[k] === 1) {
                             computerScore[i][j] += 220
-                        } else if (myWin[k] === 2) {
+                        } else if (computerWin[k] === 2) {
                             computerScore[i][j] += 420
-                        } else if (myWin[k] === 3) {
+                        } else if (computerWin[k] === 3) {
                             computerScore[i][j] += 2100
-                        } else if (myWin[k] === 4) {
-                            computerScore[i][j] += 10000
+                        } else if (computerWin[k] === 4) {
+                            computerScore[i][j] += 20000
                         }
                     }
 
@@ -252,7 +249,7 @@ var computerAI = function () {
         }
     }
 
-    drop(u, v, false)
+    pieces(u, v, false)
     chessArrays[u][v] = 2
 
     for (var k = 0; k < count; k++) {
