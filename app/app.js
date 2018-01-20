@@ -127,30 +127,130 @@ var drop = (function () {
     if (over) {
         return
     }
+
+    if (!me) {
+        return
+    }
     ui.onclick = function (e) {
         var x = Math.floor(e.offsetX / 30)
         var y = Math.floor(e.offsetY / 30)
         // 该点没有数据才能落子
         if (chessArrays[x][y] === 0) {
             pieces(x, y, me)
-            me ? chessArrays[x][y] = 1 : chessArrays[x][y] = 2
-            me = !me
-        }
+            // me ? chessArrays[x][y] = 1 : chessArrays[x][y] = 2
+            // me = !me
 
-        for (var k = 0; k < count; k++) {
-            if (wins[x][y][k]) {
-                myWin[k]++
-                computerWin[k] = 6
+            for (var k = 0; k < count; k++) {
+                if (wins[x][y][k]) {
+                    myWin[k]++
+                    computerWin[k] = 6
 
-                if (myWin[k] === 5) {
-                    window.alert('你赢了')
-                    over = true
+                    if (myWin[k] === 5) {
+                        window.alert('你赢了')
+                        over = true
+                    }
                 }
             }
+        }
+
+        if(!over) {
+            me = !me
+            // 如果没赢
+            computerAI()
         }
     }
 })()
 
+
+var computerAI = function () {
+    var myScore = []
+    var computerScore = []
+    var max = 0
+    var u = 0, v = 0
+
+    for (var i = 0; i < 15; i++) {
+        myScore[i] = []
+        computerScore[i] = []
+        for (var j = 0; j < 15; j++) {
+            myScore[i][j] = 0
+            computerScore[i][j] = 0
+        }
+    }
+
+    for (var i = 0; i < 15; i++) {
+        for (var j = 0; j < 15; j++) {
+            if (chessArrays[i][j] === 0) {
+                for (var k = 0; k < count; k++) {
+                    if (wins[i][j][k]) {
+                        if (myWin[k] === 1) {
+                            myScore[i][j] += 200
+                        } else if (myWin[k] === 2) {
+                            myScore[i][j] += 400
+                        } else if (myWin[k] === 3) {
+                            myScore[i][j] += 2000
+                        } else if (myWin[k] === 4) {
+                            myScore[i][j] += 2000;
+                        }
+                    }
+
+                    if (computerWin[i][j][k]) {
+                        if (computerScore[k] === 1) {
+                            computerScore[i][j] += 220
+                        } else if (myWin[k] === 2) {
+                            computerScore[i][j] += 420
+                        } else if (myWin[k] === 3) {
+                            computerScore[i][j] += 2100
+                        } else if (myWin[k] === 4) {
+                            computerScore[i][j] += 10000
+                        }
+                    }
+
+                    if (myScore[i][j] > max) {
+                        max = myScore[i][j]
+                        u = i
+                        v = j
+                    } else if (myScore[i][j] === max) {
+                        if (computerScore[i][j] > computerScore[u][v]) {
+                            u = i
+                            v = j
+                        }
+                    }
+
+                    if (computerScore[i][j] > max) {
+                        max = computerScore[i][j]
+                        u = i
+                        v = j
+                    } else if (computerScore[i][j] === max) {
+                        if (myScore[i][j] > myScore[u][v]) {
+                            u = i
+                            v = j
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+    drop(u, v, false)
+    chessArrays[u][v] = 2
+
+    for (var k = 0; k < count; k++) {
+        if (wins[u][v][k]) {
+            computerWin[k]++
+            myWin[k] = 6
+
+            if (computerWin[k] === 5) {
+                window.alert('计算机赢了')
+                over = true
+            }
+        }
+    }
+
+    if(!over) {
+        me = !me
+    }
+}
 
 var logo = new Image()
 logo.src = 'logo.png'
