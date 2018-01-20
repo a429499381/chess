@@ -51,6 +51,16 @@ var countData = (function () {
             }
         }
 
+        for (var i = 0; i < 11; i++) {
+            for (var j = 0; j < 15; j++) {
+                //  wins[0][0][0] = true
+                for (var k = 0; k < 5; k++) {
+                    wins[i + k][j][count] = true
+                }
+                count++;
+            }
+        }
+
     })()
 
     // 斜线赢法
@@ -64,11 +74,6 @@ var countData = (function () {
             }
         }
         // 反斜线赢法
-
-    })()
-
-    // 反斜线
-    var winBackSlash = (function () {
         for (var i = 0; i < 11; i++) {
             for (var j = 14; j > 3; j--) {
                 for (var k = 0; k < 5; k++) {
@@ -77,7 +82,9 @@ var countData = (function () {
                 count++;
             }
         }
+
     })()
+
 })()
 
 
