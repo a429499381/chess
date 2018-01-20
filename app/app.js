@@ -17,12 +17,6 @@ var count = 0;
 var myWin = []
 var computerWin = []
 
-var myWinData = (function () {
-    for (var i = 0; i < count; i++) {
-        myWin[i] = 0
-        computerWin[i] = 0
-    }
-})()
 
 // 初始化棋盘数据
 var chessdata = (function () {
@@ -85,7 +79,16 @@ var countData = (function () {
 
     })()
 
+    console.log(count)
 })()
+
+var myWinData = (function () {
+    for (var i = 0; i < count; i++) {
+        myWin[i] = 0
+        computerWin[i] = 0
+    }
+})()
+
 
 
 //  绘制棋盘
@@ -144,8 +147,6 @@ var drop = (function () {
         // 该点没有数据才能落子
         if (chessArrays[x][y] === 0) {
             pieces(x, y, me)
-            // me ? chessArrays[x][y] = 1 : chessArrays[x][y] = 2
-            // me = !me
 
             for (var k = 0; k < count; k++) {
                 if (wins[x][y][k]) {
@@ -163,7 +164,7 @@ var drop = (function () {
         if(!over) {
             me = !me
             // 如果没赢
-            computerAI()
+            // computerAI()
         }
     }
 })()
